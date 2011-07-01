@@ -29,6 +29,11 @@ module PivotalTracker
     element :last_activity_at, DateTime
     element :use_https, Boolean
 
+    def create
+      response = Client.connection["/projects"].post(self.to_xml, :content_type=> 'application/xml')
+      
+    end
+
     def activities
       @activities ||= Proxy.new(self, Activity)
     end
@@ -52,6 +57,17 @@ module PivotalTracker
       when :backlog then Iteration.backlog(self)
       else
         raise ArgumentError, "Invalid group. Use :done, :current or :backlog instead."
+      end
+    end
+
+    protected
+
+    def to_xml
+      builder = Nokogiri::XML::Builder.new do |xml|
+        xml.project {
+          xml.name "#{name}"
+          xml.iteration_length 2
+        }
       end
     end
   end
