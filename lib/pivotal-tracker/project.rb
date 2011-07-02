@@ -31,7 +31,7 @@ module PivotalTracker
 
     def create
       response = Client.connection["/projects"].post(self.to_xml, :content_type=> 'application/xml')
-      
+      Project.parse(response)
     end
 
     def activities
