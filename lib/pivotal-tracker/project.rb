@@ -66,9 +66,10 @@ module PivotalTracker
       builder = Nokogiri::XML::Builder.new do |xml|
         xml.project {
           xml.name "#{name}"
-          xml.iteration_length 2
+          xml.iteration_length "2"
         }
       end
+      return builder.to_xml
     end
   end
 end
