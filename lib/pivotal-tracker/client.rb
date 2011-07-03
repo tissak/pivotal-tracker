@@ -6,6 +6,10 @@ module PivotalTracker
     class << self
       attr_writer :use_ssl, :token
 
+      def has_token?
+        !@token.nil?
+      end
+
       def use_ssl
         @use_ssl || false
       end
