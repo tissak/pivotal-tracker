@@ -7,7 +7,7 @@ module PivotalTracker
       attr_writer :use_ssl, :token
 
       def has_token?
-        !@token.nil?
+        @token.present?
       end
 
       def use_ssl
