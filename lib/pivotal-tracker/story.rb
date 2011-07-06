@@ -69,6 +69,17 @@ module PivotalTracker
     def delete
       Client.connection["/projects/#{project_id}/stories/#{id}"].delete
     end
+    
+    # Move a story in position to another story
+    # position can be after / before
+    # reference story is what the move is relative to
+    def move(reference_story_id, position)
+      return self if project_id.nil?
+      return self unless ["after","before"].include? position
+      # direction can be after / before
+      response = Client.connection["/projects/#{project_id}/stories/#{id}/moves?move\[move\]=#{position}&move\[target\]=#{reference_story_id}"].post(self.to_xml, :content_type => 'application/xml')
+      Story.parse(response)
+    end
 
     def notes
       @notes ||= Proxy.new(self, Note)
